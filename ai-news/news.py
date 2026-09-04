@@ -313,9 +313,6 @@ def build_html(hot_topics, daily, latest_items):
     body_sections += (
         f'<tr><td style="background:#f8fafc;padding:24px 32px;border-top:2px solid #e2e8f0;">'
         f'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-        f'<td style="font-size:11px;color:#94a3b8;line-height:1.8;">'
-        f'Data: <a href="https://aihot.virxact.com" style="color:#0d9488;text-decoration:none;font-weight:600;">aihot.virxact.com</a>'
-        f'</td>'
         f'<td style="text-align:right;font-size:11px;color:#cbd5e1;">Auto-generated</td>'
         f'</tr></table></td></tr>'
     )
