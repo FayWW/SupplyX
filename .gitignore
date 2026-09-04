@@ -2,3 +2,7 @@
 *.msg
 *.xlsx
 !requirements-data.xlsx
+
+config.json
+__pycache__/
+*.py[cod]
