@@ -20,7 +20,7 @@ echo.
 
 schtasks /delete /tn "DailyNewsBriefing" /f >nul 2>&1
 
-schtasks /create /tn "DailyNewsBriefing" /tr "python \"%NEWS_PY%\" --once" /sc daily /st 09:55 /f
+schtasks /create /tn "DailyNewsBriefing" /tr "python \"%NEWS_PY%\"" /sc daily /st 09:55 /f
 
 if %errorlevel% equ 0 (
     echo.

@@ -442,6 +442,32 @@ def send_wechat(cfg, content):
         return False
 
 
+def publish_to_github():
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    page_path = "ai-news/index.html"
+
+    try:
+        subprocess.run(["git", "add", page_path], cwd=repo_root, check=True)
+        has_changes = subprocess.run(
+            ["git", "diff", "--cached", "--quiet"], cwd=repo_root
+        ).returncode != 0
+        if not has_changes:
+            print("  GitHub Pages already has the latest briefing")
+            return True
+
+        subprocess.run(
+            ["git", "commit", "-m", "Update daily AI news briefing"],
+            cwd=repo_root,
+            check=True,
+        )
+        subprocess.run(["git", "push", "origin", "main"], cwd=repo_root, check=True)
+        print("  GitHub Pages updated")
+        return True
+    except (OSError, subprocess.CalledProcessError) as error:
+        print(f"  GitHub publish failed: {error}")
+        return False
+
+
 # ====================================================
 # Main Pipeline
 # ====================================================
@@ -465,15 +491,18 @@ def run_once():
     html = build_html(hot_topics, daily, latest_items)
     wechat = build_wechat_content(hot_topics, daily, latest_items)
 
-    # Save local copy
-    local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "latest_briefing.html")
+    # Update the page served by GitHub Pages.
+    local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
     with open(local_path, "w", encoding="utf-8") as f:
         f.write(html)
 
-    print("[3/3] Sending...")
+    print("[3/4] Sending...")
     if cfg.get("sender_email") and cfg.get("sender_password") and cfg.get("recipient_email"):
         send_email(cfg, html)
     send_wechat(cfg, wechat)
+
+    print("[4/4] Publishing...")
+    publish_to_github()
 
     print("\n  Done!\n")
 
