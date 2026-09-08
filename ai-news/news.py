@@ -136,8 +136,8 @@ def fetch_daily_report():
 
 
 def fetch_latest_items():
-    """Fetch latest 24h selected items from AIHOT"""
-    data = api_get("/items", params={"mode": "selected", "window": "24h", "limit": 15})
+    """Fetch latest 24h items from AIHOT"""
+    data = api_get("/items", params={"mode": "all", "window": "24h", "limit": 50})
     if not data:
         return []
     items = []
@@ -236,10 +236,16 @@ def build_html(hot_topics, daily, latest_items):
                 f'</td></tr>{items_rows}</table>'
             )
 
-    # --- Latest Items (fallback) ---
+    # --- Latest Items ---
     items_rows = ""
-    if latest_items and not daily:
-        for i, it in enumerate(latest_items[:10], 1):
+    daily_titles = {
+        it.get("title", "")
+        for sec in (daily or {}).get("sections", [])
+        for it in sec.get("items", [])
+    }
+    unique_latest_items = [it for it in latest_items if it.get("title", "") not in daily_titles]
+    if unique_latest_items:
+        for i, it in enumerate(unique_latest_items[:10], 1):
             cat = it.get("category", "")
             color = CATEGORY_COLORS.get(cat, "#475569")
             summary = it.get("summary", "")
@@ -301,7 +307,7 @@ def build_html(hot_topics, daily, latest_items):
             f'{daily_blocks}'
             f'</td></tr>'
         )
-    elif items_rows:
+    if items_rows:
         body_sections += (
             f'<tr><td style="padding:24px 32px 20px 32px;">'
             f'<h2 style="margin:0 0 16px 0;font-size:18px;color:#0f172a;font-weight:800;">&#129302; AI 精选</h2>'
