@@ -1,0 +1,29 @@
+name: Refresh Supply Chain Briefing
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build daily briefing
+        run: python scripts/build_supply_chain_briefing.py
+      - name: Commit refreshed briefing
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add supplyx/daily-briefing.html
+          git diff --cached --quiet || git commit -m "Refresh supply chain daily briefing"
+          git push
