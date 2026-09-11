@@ -76,6 +76,22 @@ def build_page(now, technology, industry):
 def main():
     now = datetime.now(BEIJING)
     page = build_page(now, fetch_news('supply chain AI OR warehouse robotics OR digital twin'), fetch_news('supply chain logistics trade policy port freight'))
+    automation = news_cards(
+        fetch_news('supply chain automation warehouse robotics WMS'),
+        ("仓储自动化的流程编排", "把 WMS 波次、库内作业和设备任务作为同一工作流管理，先消除异常等待，再扩大自动化范围。"),
+        ("Warehouse automation workflow orchestration", "Manage WMS waves, warehouse work, and equipment tasks as one workflow; remove exception waits before expanding automation."),
+        "影响/启示：用订单周期、人工干预率和异常恢复时间衡量自动化价值。",
+        "Implication: Measure automation value through order cycle time, manual intervention rate, and recovery time.",
+    )
+    ai_updates = news_cards(
+        fetch_news('generative AI supply chain procurement planning'),
+        ("生成式 AI 的计划协同", "用生成式 AI 汇总供需例外、供应商沟通和计划假设，但保留可追溯数据来源与人工决策阈值。"),
+        ("Generative AI for planning collaboration", "Use generative AI to consolidate supply-demand exceptions, supplier communication, and planning assumptions while retaining traceable data and human thresholds."),
+        "影响/启示：先从高频、规则清晰的例外处理试点，再扩展到跨部门决策。",
+        "Implication: Start with frequent, rule-based exception handling before extending to cross-functional decisions.",
+    )
+    extra_sections = f'<section><h2 data-zh="供应链自动化" data-en="Supply Chain Automation">供应链自动化</h2>{automation}</section><section><h2 data-zh="供应链 AI" data-en="Supply Chain AI">供应链 AI</h2>{ai_updates}</section>'
+    page = page.replace("</main>", f"{extra_sections}</main>")
     explainer = DAILY_THEMES[now.toordinal() % len(DAILY_THEMES)]["explainer"]
     page = page.replace("知识科普：供应链控制塔", f"知识科普：{explainer[0]}")
     page = page.replace("Explainer: Supply Chain Control Tower", f"Explainer: {explainer[2]}")
