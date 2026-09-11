@@ -22,5 +22,5 @@ echo.
 echo Daily briefing task installed successfully.
 echo It refreshes ai-news/index.html, sends notifications, and pushes to GitHub daily at 09:55.
 echo Log: %SCRIPT_DIR%daily_news_task.log
-echo Run now: schtasks /run /tn "DailyNewsBriefing"
+echo Run now: schtasks /run /tn "DailyNewsBriefingAI"
 pause

@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 
 $scriptDir = Split-Path -Parent $PSCommandPath
 $runner = Join-Path $scriptDir 'run_daily_news.bat'
-$taskName = 'DailyNewsBriefing'
+$taskName = 'DailyNewsBriefingAI'
 
 if (-not (Test-Path -LiteralPath $runner)) {
     throw "News task runner was not found: $runner"
