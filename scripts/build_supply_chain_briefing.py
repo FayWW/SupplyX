@@ -81,8 +81,8 @@ def main():
     page = page.replace("Explainer: Supply Chain Control Tower", f"Explainer: {explainer[2]}")
     page = page.replace("控制塔汇集跨部门、跨企业数据，用于发现例外、评估影响并协调行动。", explainer[1])
     page = page.replace("A control tower unifies cross-functional and partner data to detect exceptions, assess impact, and coordinate action.", explainer[3])
-    page = page.replace("先买平台再补数据治理；没有统一主数据、规则和责任人，控制塔只会放大噪声。", "常见误区：只看单一指标或概念定义，而没有结合业务约束、数据质量和实际决策场景。")
-    page = page.replace("Buying a platform before fixing data governance. Without common master data, rules, and owners, it only amplifies noise.", "Common misconception: treating a single metric or definition as sufficient without considering operational constraints, data quality, and decision context.")
+    page = page.replace("先买平台再补数据治理；没有统一主数据、规则和责任人，控制塔只会放大噪声。", "只看单一指标或概念定义，而没有结合业务约束、数据质量和实际决策场景。")
+    page = page.replace("Buying a platform before fixing data governance. Without common master data, rules, and owners, it only amplifies noise.", "Treating a single metric or definition as sufficient without considering operational constraints, data quality, and decision context.")
     OUTPUT.write_text(page, encoding="utf-8")
     print(f"Wrote {OUTPUT}")
 
